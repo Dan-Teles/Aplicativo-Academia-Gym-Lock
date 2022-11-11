@@ -55,4 +55,52 @@
         img_modo_diurno.Visible = False
     End Sub
 
+    Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
+        If txt_login.Text = "admin" And txt_senha.Text = "admin" Then
+            Me.Hide()
+            frm_admin.ShowDialog()
+        End If
+
+        SQL = "select * from tb_login where (usuario='" & txt_login.Text & "' or email='" & txt_login.Text & "') and senha='" & txt_senha.Text & "'"
+        rs = db.Execute(SQL)
+
+        If rs.EOF = False Then
+            nome_usuario = rs.Fields(1).Value
+            status_conta = rs.Fields(5).Value
+            funcionario = rs.Fields(6).Value
+
+            If status_conta = "ATIVA" And funcionario = "CLIENTE" Then
+                MsgBox("Conta logada com sucesso!" + vbNewLine &
+                       "Bem-Vindo " & UCase(nome_usuario) & "", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "AVISO")
+                Me.Hide()
+            ElseIf status_conta = "ATIVA" And funcionario = "RECEPICIONISTA" Then
+                MsgBox("Conta logada com sucesso!" + vbNewLine &
+                       "Bem-Vindo " & UCase(nome_usuario) & "", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "AVISO")
+                Me.Hide()
+                frm_recepcionista.ShowDialog()
+            ElseIf status_conta = "ATIVA" And funcionario = "FISIOTERAPEUTA" Then
+                MsgBox("Conta logada com sucesso!" + vbNewLine &
+                      "Bem-Vindo " & UCase(nome_usuario) & "", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "AVISO")
+                Me.Hide()
+                frm_fisioterapeuta.ShowDialog()
+            ElseIf status_conta = "ATIVA" And funcionario = "NUTRICIONISTA" Then
+                MsgBox("Conta logada com sucesso!" + vbNewLine &
+                      "Bem-Vindo " & UCase(nome_usuario) & "", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "AVISO")
+                Me.Hide()
+                frm_nutricionista.ShowDialog()
+            ElseIf status_conta = "ATIVA" And funcionario = "INSTRUTOR" Then
+                MsgBox("Conta logada com sucesso!" + vbNewLine &
+                      "Bem-Vindo " & UCase(nome_usuario) & "", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "AVISO")
+                Me.Hide()
+            ElseIf status_conta = "BLOQUEADO" Then
+                MsgBox("Conta bloqueada! Contate o administrador", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "ATENÇÂO")
+                Me.Close()
+            End If
+        Else
+            MsgBox("Conta Invalida ou Inexistente!", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "ATENÇÂO")
+            txt_login.Clear()
+            txt_senha.Clear()
+            txt_login.Focus()
+        End If
+    End Sub
 End Class

@@ -1,5 +1,5 @@
 ﻿Module Module1
-    Public SQL As String
+    Public SQL, resp, nome_usuario, status_conta, funcionario As String
     Public db As New ADODB.Connection 'Variável de BD
     Public rs As New ADODB.Recordset 'Variável de TB
     Public dirbanco = Application.StartupPath & "\banco_dados\BancoDados.mdb"
